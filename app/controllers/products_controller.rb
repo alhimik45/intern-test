@@ -1,8 +1,11 @@
 class ProductsController < ApplicationController
-  before_filter :authenticate_user!, only: [:new, :edit, :delete, :update, :create]
+  before_filter :authenticate_user!, except: [:show, :index]
 
   def index
     @products = Product.all
+  end
+
+  def show
   end
 
   def new
@@ -18,12 +21,6 @@ class ProductsController < ApplicationController
     redirect_to :back
   end
 
-  def show
-  end
-
-  def delete
-  end
-
   def edit
     @product = Product.find params[:id]
   end
@@ -32,13 +29,18 @@ class ProductsController < ApplicationController
     @product = Product.find params[:id]
     p = post_params
     unless p['photo'].nil?
-      unless @product.photo.nil?
-        File.delete('public' + @product.photo)
-      end
+      @product.delete_photo
       p['photo'] = save_photo p['photo']
     end
     @product.update!(p)
     redirect_to :back
+  end
+
+  def destroy
+    @product = Product.find params[:id]
+    @product.delete_photo
+    @product.destroy!
+    redirect_to :root
   end
 
   private
