@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>InternTest</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Приложение</title>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -11,15 +21,124 @@
 
 <p class="alert"><%= alert %></p>
 
-<div>
-  <% if user_signed_in? %>
-      <%= link_to("Выход", destroy_user_session_path, :method => :delete) %>
-  <% else %>
-      <%= link_to("Зарегистрироваться", new_user_registration_path) %>,
-      <%= link_to("Войти", new_user_session_path) %>
-  <% end %>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Приложение</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <% if user_signed_in? %>
+            <li>
+              <%= link_to("Выход", destroy_user_session_path, :method => :delete) %>
+            </li>
+        <% else %>
+            <li>
+              <%= link_to("Зарегистрироваться", new_user_registration_path) %>
+            </li>
+            <li>
+              <%= link_to("Войти", new_user_session_path) %>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-3">
+      <p class="lead">Меню</p>
+
+      <div class="list-group">
+        <a href="#" class="list-group-item">Category 1</a>
+        <a href="#" class="list-group-item">Category 2</a>
+        <a href="#" class="list-group-item">Category 3</a>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+
+      <!--<div class="row carousel-holder">-->
+
+        <!--<div class="col-md-12">-->
+          <!--<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">-->
+            <!--<ol class="carousel-indicators">-->
+              <!--<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>-->
+              <!--<li data-target="#carousel-example-generic" data-slide-to="1"></li>-->
+              <!--<li data-target="#carousel-example-generic" data-slide-to="2"></li>-->
+            <!--</ol>-->
+            <!--<div class="carousel-inner">-->
+              <!--<div class="item active">-->
+                <!--<img class="slide-image" src="http://placehold.it/800x300" alt="">-->
+              <!--</div>-->
+              <!--<div class="item">-->
+                <!--<img class="slide-image" src="http://placehold.it/800x300" alt="">-->
+              <!--</div>-->
+              <!--<div class="item">-->
+                <!--<img class="slide-image" src="http://placehold.it/800x300" alt="">-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">-->
+              <!--<span class="glyphicon glyphicon-chevron-left"></span>-->
+            <!--</a>-->
+            <!--<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">-->
+              <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
+            <!--</a>-->
+          <!--</div>-->
+        <!--</div>-->
+
+      <!--</div>-->
+
+      <div class="row">
+
+        <%= yield %>
+
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
-<%= yield %>
+<!-- /.container -->
+
+<div class="container">
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="row">
+      <div class="col-lg-12">
+        <p>Copyright &copy; Kolpakov Alexey 2015</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<!-- /.container -->
 
 </body>
+
 </html>
+
+
+
