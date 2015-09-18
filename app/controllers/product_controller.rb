@@ -18,6 +18,7 @@ class ProductController < ApplicationController
     end
     @product = Product.new p
     @product.save!
+    current_user.products << @product
     redirect_to :back
   end
 

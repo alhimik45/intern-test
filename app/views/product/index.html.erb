@@ -7,9 +7,11 @@
         <%= image_tag product.photo, class: 'product-img' %>
 
         <div class="caption">
-          <p class="pull-right">
-            <%= link_to(image_tag('edit-icon.png', class: 'edit-btn') , edit_product_path(product)) %>
-          </p>
+          <% if current_user == product.user %>
+              <p class="pull-right">
+                <%= link_to(image_tag('edit-icon.png', class: 'edit-btn'), edit_product_path(product)) %>
+              </p>
+          <% end %>
           <h4>
             <%= link_to product.name, product_path(product) %>
           </h4>
