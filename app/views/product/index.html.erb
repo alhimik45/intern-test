@@ -1,2 +1,11 @@
-<h1>Product#index</h1>
-<p>Find me in app/views/product/index.html.erb</p>
+<% if @products.empty? %>
+    <p>На данный момент товаров нет</p>
+<% end %>
+<% @products.each do |product| %>
+    <div>
+      <p><%= product.name %></p>
+      <p><%= product.description %></p>
+      <%= image_tag product.photo %>
+    </div>
+<% end %>
+
