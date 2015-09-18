@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root to: 'product#index'
+  root to: 'products#index'
 
-  resources :product
+  resources :products
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
