@@ -1,4 +1,6 @@
 class ProductController < ApplicationController
+  before_filter :authenticate_user!, only: [:new, :edit, :delete]
+
   def index
     @products = Product.all
   end
@@ -11,7 +13,7 @@ class ProductController < ApplicationController
     p = post_params
     unless p['photo'].nil?
       path = upload_path p['photo']
-      File.open('public' + path, "wb") { |f| f.write(p['photo'].tempfile.read) }
+      File.open('public' + path, 'wb') { |f| f.write(p['photo'].tempfile.read) }
       p['photo'] = path
     end
     @product = Product.new p
@@ -25,12 +27,16 @@ class ProductController < ApplicationController
   def delete
   end
 
+  def edit
+
+  end
+
   private
   def post_params
     params.require(:product).permit(:name, :description, :photo)
   end
 
-  def upload_path file
+  def upload_path(file)
     dir = '/upload/'
     file_extension = file.original_filename.split('.')[-1]
     filename = (0...32).map { (65 + rand(26)).chr }.join
