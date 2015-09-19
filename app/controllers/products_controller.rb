@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
     @product = Product.new p
     @product.save!
     current_user.products << @product
-    redirect_to :back
+    redirect_to :root
   end
 
   def edit
