@@ -15,4 +15,8 @@ class BuyMailer < ApplicationMailer
     mail(to: Admin.pluck(:email), subject: 'У пользователя произошла ошибка')
   end
 
+  def admins_report_timeout
+    mail(to: Admin.pluck(:email), subject: 'Сервисы не отвечают')
+  end
+
 end
