@@ -69,7 +69,9 @@
 
       <div class="list-group">
         <%= link_to 'Главная страница', :root, class: 'list-group-item' %>
-        <%= link_to 'Добавить товар', new_product_path, class: 'list-group-item' %>
+        <% if current_user.is_a? Shop %>
+            <%= link_to 'Добавить товар', new_product_path, class: 'list-group-item' %>
+        <% end %>
       </div>
     </div>
 

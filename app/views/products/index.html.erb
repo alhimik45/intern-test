@@ -9,7 +9,14 @@
         <div class="caption">
           <%= render 'controls', product: product %>
           <h4>
-            <%= link_to product.name, product_path(product) %>
+            <%
+               if current_user
+                 shopname = " (#{product.user.shopname})"
+               else
+                 shopname = ''
+               end
+            %>
+            <%= link_to product.name + shopname, product_path(product) %>
           </h4>
 
           <p><%= product.description %></p>
