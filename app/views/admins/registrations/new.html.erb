@@ -15,9 +15,18 @@
 
     <div class="field form-group">
       <%= f.label :birthday, 'Дата рождения' %><br/>
-      <%= f.date_select :birthday, class: 'form-control' %>
+      <%= f.date_select :birthday,start_year: 1950 %>
     </div>
 
+    <div class="field form-group">
+      <%= f.label :avatar, 'Аватар' %><br/>
+      <%= f.file_field :avatar %>
+    </div>
+
+    <div class="field form-group">
+      <%= f.label :passport, 'Фото пасспорта' %><br/>
+      <%= f.file_field :passport %>
+    </div>
 
 
     <div class="field form-group">
