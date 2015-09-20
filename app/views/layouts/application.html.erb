@@ -36,14 +36,20 @@
       <ul class="nav navbar-nav">
         <% if user_signed_in? %>
             <li>
-              <%= link_to("Выход", destroy_user_session_path, :method => :delete) %>
+              <%= link_to('Выход', destroy_user_session_path, :method => :delete) %>
             </li>
         <% else %>
             <li>
-              <%= link_to("Зарегистрироваться", new_user_registration_path) %>
+              <%= link_to('Зарегистрировать администратора', new_admin_registration_path) %>
             </li>
             <li>
-              <%= link_to("Войти", new_user_session_path) %>
+              <%= link_to('Зарегистрировать магазин', new_shop_registration_path) %>
+            </li>
+            <li>
+              <%= link_to('Зарегистрировать пользователя', new_guest_registration_path) %>
+            </li>
+            <li>
+              <%= link_to('Войти', new_user_session_path) %>
             </li>
         <% end %>
       </ul>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150918213830) do
+ActiveRecord::Schema.define(version: 20150919193737) do
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
@@ -37,13 +37,18 @@ ActiveRecord::Schema.define(version: 20150918213830) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "username"
     t.integer  "products_id"
+    t.string   "type"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "avatar"
+    t.string   "passport"
+    t.date     "birthday"
+    t.string   "shopname"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["products_id"], name: "index_users_on_products_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
 
 end

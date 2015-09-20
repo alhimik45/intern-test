@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 
   resources :products
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'registrations'}, only: [:sessions]
+  devise_for :admins, controllers: { registrations: 'registrations'}, only: [:registrations]
+  devise_for :shops, controllers: { registrations: 'registrations'}, only: [:registrations]
+  devise_for :guests, controllers: { registrations: 'registrations'}, only: [:registrations]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

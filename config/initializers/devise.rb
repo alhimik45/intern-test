@@ -2,7 +2,6 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
 
-  config.authentication_keys = [ :username ]
   config.scoped_views = true
 
   # The secret key used by Devise. Devise uses this key to generate
@@ -146,7 +145,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length.
-  config.password_length = 8..72
+  config.password_length = 1..72
 
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
