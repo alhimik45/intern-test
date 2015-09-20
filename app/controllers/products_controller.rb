@@ -52,12 +52,16 @@ class ProductsController < ApplicationController
 
   def buy
     @product = Product.find params[:id]
-    if @product.pro or
-        not @product.user.is_a? Shop or
-        current_user.email.split('.')[-1] == 'com'
-
-      flash[:alert] = 'Вы не можете купить этот товар'
-    else
+    user_can_buy = true
+    if @product.pro
+      user_can_buy = false
+      flash[:alert] = 'Вы не можете купить PRO-товар'
+    end
+    if current_user.email.split('.')[-1] == 'com'
+      user_can_buy = false
+      flash[:alert] = 'У Вас плохой e-mail'
+    end
+    if user_can_buy
       photos = RestClient.get 'http://jsonplaceholder.typicode.com/photos/'
       photo = JSON.parse(photos).sample
       thumbnail = photo['thumbnailUrl']
@@ -84,19 +88,20 @@ class ProductsController < ApplicationController
   end
 
   def check_admin
-    unless current_user.is_a? Admin
-      redirect_to :back
-    end
+    check_role Admin
   end
 
   def check_shop
-    unless current_user.is_a? Shop
-      redirect_to :back
-    end
+    check_role Shop
   end
 
   def check_guest
-    unless current_user.is_a? Guest
+    check_role Guest
+  end
+
+  def check_role(role)
+    unless current_user.is_a? role
+      flash[:alert] = 'У Вас не тот тип аккаунта'
       redirect_to :back
     end
   end
