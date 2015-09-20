@@ -1,5 +1,8 @@
 class ProductsController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :index]
+  before_filter :check_admin, only: [:toggle_pro]
+  before_filter :check_shop, only: [:new, :create]
+  before_filter :check_owner, only: [:edit, :update, :destroy]
 
   def index
     @products = Product.all
@@ -39,10 +42,34 @@ class ProductsController < ApplicationController
     redirect_to :root
   end
 
+  def toggle_pro
+    @product = Product.find params[:id]
+    @product.pro = !@product.pro
+    @product.save!
+  end
+
   private
   def post_params
     params.require(:product).permit(:name, :description, :photo)
   end
 
+  def check_admin
+    unless current_user.is_a? Admin
+      redirect_to :back
+    end
+  end
+
+  def check_shop
+    unless current_user.is_a? Shop
+      redirect_to :back
+    end
+  end
+
+  def check_owner
+    product = Product.find params[:id]
+    if product.user != current_user
+      redirect_to :back
+    end
+  end
 
 end

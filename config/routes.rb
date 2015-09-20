@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   root to: 'products#index'
 
-  resources :products
+  resources :products do
+    collection do
+      post ':id/toggle_pro', action: :toggle_pro, as: :toggle_pro
+    end
+  end
+
 
   devise_for :users, controllers: { registrations: 'registrations'}, only: [:sessions]
   devise_for :admins, controllers: { registrations: 'registrations'}, only: [:registrations]
