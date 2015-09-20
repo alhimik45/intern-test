@@ -66,10 +66,13 @@ class ProductsController < ApplicationController
       url_color = url.split('/')[-1].to_i 16
       if thumbnail_color > url_color
         flash[:alert] = 'При покупке произошла ошибка'
-        #TODO MAIL
+        BuyMailer.admins_buy_fail(current_user).deliver_now!
       else
         flash[:notice] = 'Покупка прошла успешно'
-        #TODO MAIL
+        BuyMailer.user_buy_success(current_user, url).deliver_now!
+        todos = RestClient.post 'http://jsonplaceholder.typicode.com/todos', {}
+        todo_id = JSON.parse(todos)['id']
+        BuyMailer.admins_buy_success(todo_id).deliver_now!
       end
     end
     redirect_to :back
