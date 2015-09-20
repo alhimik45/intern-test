@@ -19,5 +19,4 @@
 # Ignore IDE
 /.idea/*
 
-/public/upload/*
-!/public/upload/.keep
+/public/uploads/*
