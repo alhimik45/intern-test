@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :products do
     collection do
       post ':id/toggle_pro', action: :toggle_pro, as: :toggle_pro
+      post ':id/buy', action: :buy, as: :buy
     end
   end
 

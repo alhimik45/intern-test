@@ -1,0 +1,7 @@
+<% if current_user.is_a? Guest %>
+    <br/>
+    <%= link_to 'Купить',
+                buy_products_path(product),
+                method: :post,
+                class: 'btn btn-info nav-justified' %>
+<% end %>
