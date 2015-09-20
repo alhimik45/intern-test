@@ -46,6 +46,7 @@ class ProductsController < ApplicationController
     @product = Product.find params[:id]
     @product.pro = !@product.pro
     @product.save!
+    redirect_to :back
   end
 
   private

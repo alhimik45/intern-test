@@ -1,11 +1,7 @@
 <div class="thumbnail">
   <%= image_tag @product.photo, class: 'img-responsive full-product-img' %>
   <div class="caption-full">
-    <% if current_user == @product.user %>
-        <p class="pull-right">
-          <%= link_to(image_tag('edit-icon.png', class: 'edit-btn'), edit_product_path(@product)) %>
-        </p>
-    <% end %>
+    <%= render 'controls', product: @product %>
     <h4>
       <%= @product.name %>
     </h4>
