@@ -52,16 +52,8 @@ class ProductsController < ApplicationController
 
   def buy
     @product = Product.find params[:id]
-    user_can_buy = true
-    if @product.pro
-      user_can_buy = false
-      flash[:alert] = 'Вы не можете купить PRO-товар'
-    end
-    if current_user.email.split('.')[-1] == 'com'
-      user_can_buy = false
-      flash[:alert] = 'У Вас плохой e-mail'
-    end
-    if user_can_buy
+    status = user_status
+    if status[:can_buy]
       begin
         results = BuyService.new.buy
       rescue BadTimeoutError
@@ -77,12 +69,31 @@ class ProductsController < ApplicationController
         BuyMailer.user_buy_success(current_user, results[:url]).deliver_now!
         BuyMailer.admins_buy_success(results[:todo_id]).deliver_now!
       end
+    else
+      flash[:alert] = status[:error]
     end
     redirect_to :back
   end
 
 
   private
+  def user_status
+    if @product.pro
+      return {
+        can_buy: false,
+        error: 'Вы не можете купить PRO-товар'
+      }
+    end
+    if current_user.email.split('.')[-1] == 'com'
+      return {
+        can_buy: false,
+        error: 'У Вас плохой e-mail'
+      }
+    end
+    {can_buy: true}
+  end
+
+
   def post_params
     params.require(:product).permit(:name, :description, :photo)
   end
