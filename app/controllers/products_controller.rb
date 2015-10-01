@@ -63,32 +63,19 @@ class ProductsController < ApplicationController
     end
     if user_can_buy
       begin
-        photos = get_photos
+        results = BuyService.new.buy
+      rescue BadTimeoutError
+        flash[:alert] = 'Не удалось выполнить покупку: важный сервис не отвечает'
+        BuyMailer.admins_report_timeout.deliver_now!
       rescue TimeoutError
         flash[:alert] = 'Не удалось выполнить покупку: сервис не отвечает'
+      rescue BuyError
+        flash[:alert] = 'При покупке произошла ошибка'
+        BuyMailer.admins_buy_fail(current_user).deliver_now!
       else
-        photo = JSON.parse(photos).sample
-        thumbnail = photo['thumbnailUrl']
-        url = photo['url']
-        thumbnail_color = thumbnail.split('/')[-1].to_i 16
-        url_color = url.split('/')[-1].to_i 16
-        if thumbnail_color > url_color
-          flash[:alert] = 'При покупке произошла ошибка'
-          BuyMailer.admins_buy_fail(current_user).deliver_now!
-        else
-          begin
-            todos = get_todos
-          rescue TimeoutError
-            flash[:alert] = 'Не удалось выполнить покупку: сервис не отвечает'
-            BuyMailer.admins_report_timeout.deliver_now!
-          else
-            todo_id = JSON.parse(todos)['id']
-            flash[:notice] = 'Покупка прошла успешно'
-            BuyMailer.user_buy_success(current_user, url).deliver_now!
-            BuyMailer.admins_buy_success(todo_id).deliver_now!
-          end
-
-        end
+        flash[:notice] = 'Покупка прошла успешно'
+        BuyMailer.user_buy_success(current_user, results[:url]).deliver_now!
+        BuyMailer.admins_buy_success(results[:todo_id]).deliver_now!
       end
     end
     redirect_to :back
@@ -124,26 +111,6 @@ class ProductsController < ApplicationController
     if product.user != current_user
       redirect_to :back
     end
-  end
-
-  def get_photos
-    Timeout::timeout(3) {
-      sleep(rand 6)
-      RestClient.get 'http://jsonplaceholder.typicode.com/photos/'
-    }
-  end
-
-  def get_todos
-    3.times {
-      begin
-        Timeout::timeout(3) {
-          sleep(rand 6)
-          return RestClient.post 'http://jsonplaceholder.typicode.com/todos', {}
-        }
-      rescue
-      end
-    }
-    raise TimeoutError
   end
 
 end
