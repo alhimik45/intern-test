@@ -52,7 +52,7 @@ class ProductsController < ApplicationController
 
   def buy
     @product = Product.find params[:id]
-    status = user_status
+    status = current_user.status @product
     if status[:can_buy]
       begin
         results = BuyService.new.buy
@@ -77,23 +77,6 @@ class ProductsController < ApplicationController
 
 
   private
-  def user_status
-    if @product.pro
-      return {
-        can_buy: false,
-        error: 'Вы не можете купить PRO-товар'
-      }
-    end
-    if current_user.email.split('.')[-1] == 'com'
-      return {
-        can_buy: false,
-        error: 'У Вас плохой e-mail'
-      }
-    end
-    {can_buy: true}
-  end
-
-
   def post_params
     params.require(:product).permit(:name, :description, :photo)
   end

@@ -5,4 +5,21 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :validatable
 
   has_many :products
+
+  def status(product)
+  	if product.pro
+  		return {
+  			can_buy: false,
+  			error: 'Вы не можете купить PRO-товар'
+  		}
+  	end
+  	if self.email.split('.')[-1] == 'com'
+  		return {
+  			can_buy: false,
+  			error: 'У Вас плохой e-mail'
+  		}
+  	end
+  	{can_buy: true}
+  end
+
 end
