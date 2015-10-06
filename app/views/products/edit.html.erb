@@ -1,0 +1,8 @@
+<h2>Редактирование товара</h2>
+
+<%= render 'form' %>
+
+<%= link_to 'Удалить товар',
+            product_path(@product),
+            data: {confirm: 'Вы действительно хотите удалить товар?'},
+            method: :delete %>

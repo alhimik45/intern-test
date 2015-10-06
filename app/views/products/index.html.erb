@@ -1,0 +1,30 @@
+<% if @products.empty? %>
+    <p>На данный момент товаров нет</p>
+<% end %>
+<% @products.each do |product| %>
+    <% if current_user || !product.pro %>
+        <div class="col-sm-4 col-lg-4 col-md-4">
+          <div class="thumbnail">
+            <%= image_tag product.photo, class: 'product-img' %>
+
+            <div class="caption">
+              <%= render 'controls', product: product %>
+              <h4>
+                <%
+                   if current_user
+                     shopname = " (#{product.user.shopname})"
+                   else
+                     shopname = ''
+                   end
+                %>
+                <%= link_to product.name + shopname, product_path(product) %>
+              </h4>
+
+              <p><%= product.description %></p>
+            </div>
+            <%= render 'buybtn', product: product %>
+          </div>
+        </div>
+    <% end %>
+<% end %>
+

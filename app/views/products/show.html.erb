@@ -1,0 +1,14 @@
+<div class="thumbnail">
+  <%= image_tag @product.photo, class: 'img-responsive full-product-img' %>
+  <div class="caption-full">
+    <%= render 'controls', product: @product %>
+    <h4>
+      <%= @product.name %>
+    </h4>
+
+    <p>
+      <%= @product.description %>
+    </p>
+    <%= render 'buybtn', product: @product %>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+// Place all the styles related to the product controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.product-img {
+  max-height: 150px !important;
+  max-width: 320px !important;
+}
+
+.full-product-img {
+  max-height: 300px !important;
+  max-width: 800px !important;
+}
+
+.edit-btn {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.pro-btn {
+  width: 30px !important;
+  height: 15px !important;
+}
